@@ -69,9 +69,9 @@ def validate_signup():
         if not validate(email):
             email_error = 'Email must be between 3 and 20 characters in length'
             email = ''
-        elif email.count('@') > 1 or email.count('.') > 1:
-            email_error = 'Email can not contain more than a single "@" or "."'
-            email = ''
+        elif not email.count('@') == 1 and email.count('.') == 1:
+            email_error = 'Email can only contain a single "@" and "."'
+            email = '' 
         else:
             for char in email:
                 if char == ' ':
