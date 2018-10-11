@@ -39,24 +39,15 @@ def validate_signup():
     email_error = ''
 
 # use validate function to test length. can not contain a space ' '. return error if needed #
-    if not validate(username):
-        username_error = 'Username must be between 3 and 20 characters in length'
+    if not validate(username) or " " in username:
+        username_error = 'Username must be between 3 and 20 characters in length and can NOT contain a space'
         username = ''
-    else:
-        for char in username:
-            if char == ' ':
-                username_error = 'Username can not contain a space' 
-                username = ''
 
 # use validate function to test length. can not contain a space ' '. return error if needed #
-    if not validate(password):
+    if not validate(password) or " " in password:
         password_error = 'Password must be between 3 and 20 characters in length'
         password = ''
-    else:
-        for char in password:
-            if char == ' ':
-                password_error = 'Password can not contain a space' 
-                password = ''
+    
 
 # verify must match password. if not give error and re-enter #    
     if verify != password:
@@ -64,19 +55,20 @@ def validate_signup():
         verify = ''
 
 # optional! if not empty, use validate function to test length. can not contain a space ' ' #
-# can not contain more than a single (@) or (.) #
-    if email != '':
-        if not validate(email):
-            email_error = 'Email must be between 3 and 20 characters in length'
-            email = ''
-        elif not email.count('@') == 1 and email.count('.') == 1:
-            email_error = 'Email can only contain a single "@" and "."'
-            email = '' 
-        else:
-            for char in email:
-                if char == ' ':
-                    email_error = 'Email can not contain a space' 
-                    email = ''
+# can not contain more or less than a single (@) and (.) #
+    if email != '' and not validate(email):
+        email_error = 'Email must be between 3 and 20 characters in length'
+        email = ''
+    elif email !='' and (" " in email):
+        email_error = 'Email can NOT contain a space'
+        email = ''
+    elif email != '' and not(email.count("@") == 1):
+        email_error = "Email must contain a single '@'"
+        email = ''
+    elif email != '' and not(email.count(".") == 1):
+        email_error = "Email must contain a single '.'"
+        email = ''
+    
 
 # redirect if no errors and send username with GET request to welcome page #
 # if errors, re-render index page with error prompts for user #
